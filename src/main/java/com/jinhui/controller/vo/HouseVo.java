@@ -2,6 +2,7 @@ package com.jinhui.controller.vo;
 
 
 import com.jinhui.domain.Attachment;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
@@ -13,42 +14,63 @@ public class HouseVo {
     private String id;
     private String communityId;
     //小区名称
+    @ApiModelProperty(value = "小区名称")
     private String community;
     //地址-省
+    @ApiModelProperty(value = "省")
     private String province;
     //地址-市
+    @ApiModelProperty(value = "市")
     private String city;
     //地址-区
+    @ApiModelProperty(value = "区")
     private String district;
     //地址-路
+    @ApiModelProperty(value = "路")
     private String road;
     //地址-号
+    @ApiModelProperty(value = "街道号")
     private String doorNo;
     //具体地址
+    @ApiModelProperty(value = "详细地址")
     private String detailAddress;
+    @ApiModelProperty(value = "用户ID")
     private Long userId;
+    @ApiModelProperty(value = "用户名")
     private String username;
     //房产证（图）,文件ID字符串
+    @ApiModelProperty(value = "房屋证明图片，逗号分隔的文件id字符串")
     private List<AttachmentVo> houseCredential;
     //建筑面积
+    @ApiModelProperty(value = "建筑面积")
     private Double area;
     //实用面积
+    @ApiModelProperty(value = "实际可用面积")
     private Double realArea;
     //使用率
+    @ApiModelProperty(value = "使用率")
     private Double usageRatio;
     //朝向
+    @ApiModelProperty(value = "朝向")
     private String direction;
     //楼
+    @ApiModelProperty(value = "楼层")
     private String floor;
     // 室-厅-厕
+    @ApiModelProperty(value = "户型")
     private String construction;
     //是否托管
+    @ApiModelProperty(value = "是否托管[1:托管， 0:未托管]")
     private Integer isTrusteeship;
     //房源图片, 文件id字符串
     //private List<String> images;
+    @ApiModelProperty(value = "房源图片")
     private List<AttachmentVo> images;
+    @ApiModelProperty(value = "租约")
     private ContractVo contractVo;
+    @ApiModelProperty(value = "托管")
     private TrusteeshipVo trusteeshipVo;
+    @ApiModelProperty(value = "修改记录")
     private ModifiedRecordVo modifiedRecordVo;
 
     public Long getModifiedId() {

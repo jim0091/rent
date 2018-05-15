@@ -1,6 +1,8 @@
 package com.jinhui.controller.vo;
 
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -15,10 +17,15 @@ public class UserVo {
     private String identity;
     private List<AttachmentVo> identityImage;
     private String cellphone;
+    @ApiModelProperty(value="TCP帐户ID")
     private String TCPAccountId;
+    @ApiModelProperty(value="TCC帐户ID")
     private String TCCAccountId;
+    @ApiModelProperty(value="TCP余额")
     private BigDecimal TCPBalance;
+    @ApiModelProperty(value="TCC余额")
     private BigDecimal TCCBalance;
+    @ApiModelProperty(value="积分数")
     private Long points;
     private List<HouseVo> houseVos;
     private List<PointVo> pointVos;

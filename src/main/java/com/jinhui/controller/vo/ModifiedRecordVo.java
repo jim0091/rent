@@ -1,6 +1,8 @@
 package com.jinhui.controller.vo;
 
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Created by jinhui on 2018/4/9.
  */
@@ -10,14 +12,18 @@ public class ModifiedRecordVo {
     private String houseId;
     //用户ID
     private Long userId;
+    @ApiModelProperty(value = "用户名")
     private String userName;
     //角色
+    @ApiModelProperty(value = "用户角色[Renter(\"房东\"), Agent(\"中介\"), Tenant(\"租客\"), Other(\"其他\")]")
     private String userRole;
     //附言
+    @ApiModelProperty(value = "附言")
     private String comment;
     //动作
+    @ApiModelProperty(value = "操作类型")
     private String operationType;
-
+    @ApiModelProperty(value = "记录创建时间")
     private String gmtCreated;
 
     public String getGmtCreated() {
