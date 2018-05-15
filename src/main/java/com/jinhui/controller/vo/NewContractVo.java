@@ -1,5 +1,7 @@
 package com.jinhui.controller.vo;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.math.BigDecimal;
 
 /**
@@ -8,26 +10,37 @@ import java.math.BigDecimal;
 public class NewContractVo {
     private String houseId;
     //业主
+    @ApiModelProperty(value = "业主")
     private String renter;
     //        出租人ID
+    @ApiModelProperty(value = "业主ID")
     private Long renterId;
     //营运方
+    @ApiModelProperty(value = "运营方")
     private String agent;
     //        承租人
+    @ApiModelProperty(value = "租客")
     private String tenant;
     //承租人ID
+    @ApiModelProperty(value = "租客ID")
     private Long tenantId;
     //        租金
+    @ApiModelProperty(value = "租金")
     private BigDecimal amount;
     //租期起
+    @ApiModelProperty(value = "起始租期格式[yyyy-mm-dd]")
     private String startDate;
     //租期止
+    @ApiModelProperty(value = "终止租期格式[yyyy-mm-dd]")
     private String endDate;
     //押金
+    @ApiModelProperty(value = "押金")
     private BigDecimal deposit;
     //租约状态[Enable, Disable]
+    @ApiModelProperty(value = "租约状态[Enable, Disable]")
     private String status;
     //租赁合同
+    @ApiModelProperty(value = "租赁合同附件ids")
     private String files;
 
     public String getHouseId() {

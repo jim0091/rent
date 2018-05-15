@@ -8,11 +8,15 @@ import io.swagger.annotations.ApiModelProperty;
 public class NewUserVo {
 
     private Long id;
+    @ApiModelProperty(value = "用户名")
     private String name;
+    @ApiModelProperty(value = "身份证号")
     private String identity;
+    @ApiModelProperty(value = "身份证图片")
     private String identityImage;
     @ApiModelProperty(value = "手机号", required = true)
     private String cellphone;
+    @ApiModelProperty(value = "密码")
     private String password;
 
     public Long getId() {

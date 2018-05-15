@@ -63,7 +63,7 @@ public class RentServiceImpl implements RentService {
     @Override
     public List<House> findHouseModifiedList(String houseId) {
         List<House> houses = houseMapper.findHouseModifiedList(houseId);
-        // TODO: 2018/4/12 query from fabric
+        // query from fabric
         /*String housesJson = fabricClient.
                 query(FabricShellClient.Method.QueryHistoryJsonString, new String[]{houseId});
         List<House> houses = JSON.parseArray(housesJson, House.class);*/
@@ -100,15 +100,13 @@ public class RentServiceImpl implements RentService {
             }
             self.addPoints(mr.getUserId(), points);
         }
-        //// TODO: 2018/4/9 store to fabric
+        //store to fabric
         String houseJson = JSONObject.toJSONString(house);
         if(logger.isInfoEnabled())
             logger.info("异步将房屋数据存入fabric, houseId = {}", house.getId());
         fabricClient.asycExec(FabricShellClient.Method.StoreJsonString,
                 new String[]{house.getId(), houseJson.replace("\"","\\\"")});
     }
-
-
 
     @Override
     public String fetchHouseId() {

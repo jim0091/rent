@@ -4,6 +4,7 @@ package com.jinhui.controller;
 
 import com.jinhui.controller.base.WebResult;
 import com.jinhui.wechat.WechatAuthorizeManager;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,17 +21,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 @RequestMapping("/wechat")
+@Api(value = "rent", description = "微信授权相关接口")
 public class WechatController {
-	Logger logger = LoggerFactory.getLogger(WechatController.class);
-
-	/*@RequestMapping("/refreshToken")
-	@ResponseBody
-	public String refreshToken(){
-		WebResult result = WebResult.refreshTokenResult("刷新token");
-		return result.toJson();
-	}*/
-
-
+	private Logger logger = LoggerFactory.getLogger(WechatController.class);
 
 	@RequestMapping(WechatAuthorizeManager.WechatAuthCodeUrl)
 	@ApiOperation(value = "微信授权code回调", response = String.class, httpMethod = "GET")
@@ -45,12 +38,6 @@ public class WechatController {
 			WebResult result = WebResult.failureResult(e.getMessage());
 			return result.toJson();
 		}
-	}
-
-	public static void main(String[] strs) {
-		String imageUri = "abc/1234";
-		String imageName = imageUri.substring(imageUri.lastIndexOf("/")+1);
-		System.out.println(imageName);
 	}
 
 }

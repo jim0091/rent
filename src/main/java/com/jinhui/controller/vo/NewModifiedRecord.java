@@ -21,6 +21,7 @@ public class NewModifiedRecord {
     @ApiModelProperty(value = "用户角色[Renter(\"房东\"), Agent(\"中介\"), Tenant(\"租客\"), Other(\"其他\")]", required = true)
     private String userRole;
     //附言
+    @ApiModelProperty(value = "附言")
     private String comment;
     //动作
     @ApiModelProperty(value = "Created(\"创建\"), Modified(\"修改\"), Approved(\"赞同\")", required = true)

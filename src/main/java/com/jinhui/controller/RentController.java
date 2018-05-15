@@ -46,7 +46,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  */
 @RestController
 @RequestMapping(value = "/rent")
-@Api(value = "rent", description = "告白相关接口")
+@Api(value = "rent", description = "TCP相关接口")
 public class RentController {
 
     public final static String AttachmentUrl = "rent/attachment/";
@@ -107,7 +107,7 @@ public class RentController {
                 //update session
                 SessionUtil.putCellphone(request, cellphone);
                 if (WechatAuthorizeManager.fromWechatRequest(request)) {
-                    //微信登录
+                    //微信首次登录
                     String openid = WechatAuthorizeManager.getOpenId(request);
                     User wechatUser = rentService.findUserByOpenid(openid);
                     if(wechatUser == null) {
@@ -169,7 +169,7 @@ public class RentController {
     }
 
     @RequestMapping("/wechatSignIn")
-    @ApiOperation(value = "微信登入", response = UserVo.class, httpMethod = "GET")
+    @ApiOperation(value = "微信绑定登入", response = UserVo.class, httpMethod = "GET")
     @ResponseBody
     public WebTemplateResult<UserVo> wechatSignIn(HttpServletRequest request) {
         if(logger.isInfoEnabled()) {
