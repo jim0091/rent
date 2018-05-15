@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinhui.mapper.UserMapper" >
+
+	<resultMap id="baseUser" type="com.jinhui.domain.User" >
+		<result column="id"  property="id"/>
+		<result column="openid"  property="openid"/>
+		<result column="name"  property="name"/>
+		<result column="identity"  property="identity"/>
+		<result column="identity_image"  property="identityImage"/>
+		<result column="cellphone"  property="cellphone"/>
+		<result column="tcp_account_id"  property="TCPAccountId"/>
+		<result column="tcc_account_id"  property="TCCAccountId"/>
+		<result column="tcp_balance"  property="TCPBalance"/>
+		<result column="tcc_balance"  property="TCCBalance"/>
+		<result column="points"  property="points"/>
+		<result column="password"  property="password"/>
+		<result column="last_login_time"  property="lastLoginTime"/>
+		<!--<result column="role"  property="role"/>-->
+	</resultMap>
+
+	<select id="findUserByCellphone" parameterType="String" resultMap="baseUser">
+		SELECT * FROM user
+		WHERE cellphone=#{cellphone}
+	</select>
+	<select id="findUserById" parameterType="Long" resultMap="baseUser">
+		SELECT * FROM user
+		WHERE id=#{id}
+	</select>
+	<select id="findUserByOpenid" parameterType="String" resultMap="baseUser">
+		SELECT * FROM user
+		WHERE openid=#{openid}
+	</select>
+
+	<update id="updateUser" parameterType="com.jinhui.domain.User">
+		UPDATE `rent`.`user`
+		SET
+		id=id
+		<if test="openid != null">
+			,`openid` = #{openid}
+		</if>
+		<if test="name != null">
+			,`name` = #{name}
+		</if>
+		<if test="identity!=null">
+			,`identity` = #{identity}
+		</if>
+		<if test="identityImage != null">
+			,`identity_image` = #{identityImage}
+		</if>
+		<if test="cellphone != null">
+			,`cellphone` = #{cellphone}
+		</if>
+		<if test="TCPAccountId != null">
+			,`tcp_account_id` = #{TCPAccountId}
+		</if>
+		<if test="TCCAccountId != null">
+			,`tcc_account_id` = #{TCCAccountId}
+		</if>
+		<if test="TCPBalance != null">
+			,`tcp_balance` = #{TCPBalance}
+		</if>
+		<if test="TCCBalance != null">
+			,`tcc_balance` = #{TCCBalance},
+		</if>
+		<if test="points!=null">
+			,`points` = #{points}
+		</if>
+		<if test="role != null">
+			,`role` = #{role}
+		</if>
+		WHERE `id` = #{id};
+	</update>
+
+	<insert id="saveUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.jinhui.domain.User">
+		INSERT INTO `rent`.`user`
+		(
+		`openid`,
+		`name`,
+		`identity`,
+		`identity_image`,
+		`cellphone`,
+		`tcp_account_id`,
+		`tcc_account_id`,
+		`tcp_balance`,
+		`tcc_balance`,
+		`password`)
+		VALUES
+		(
+		#{openid},
+		#{name},
+		#{identity},
+		#{identityImage},
+		#{cellphone},
+		#{TCPAccountId},
+		#{TCCAccountId},
+		#{TCPBalance},
+		#{TCCBalance},
+		#{password})
+	</insert>
+
+</mapper>

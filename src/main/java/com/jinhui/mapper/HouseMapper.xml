@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinhui.mapper.HouseMapper" >
+
+	<resultMap id="baseHouse" type="com.jinhui.domain.House" >
+		<result column="modified_id"  property="modifiedId"/>
+		<result column="id"  property="id"/>
+		<result column="community"  property="community"/>
+		<result column="province"  property="province"/>
+		<result column="city"  property="city"/>
+		<result column="district"  property="district"/>
+		<result column="road"  property="road"/>
+		<result column="door_no"  property="doorNo"/>
+		<result column="detail_address"  property="detailAddress"/>
+		<result column="user_id"  property="userId"/>
+		<result column="username"  property="username"/>
+		<result column="house_credential"  property="houseCredential"/>
+		<result column="area"  property="area"/>
+		<result column="real_area"  property="realArea"/>
+		<result column="usage_ratio"  property="usageRatio"/>
+		<result column="direction"  property="direction"/>
+		<result column="floor"  property="floor"/>
+		<result column="construction"  property="construction"/>
+		<result column="is_trusteeship"  property="isTrusteeship"/>
+		<result column="images"  property="images"/>
+		<association property="modifiedRecord" javaType="com.jinhui.domain.ModifiedRecord">
+			<result column="house_id"  property="houseId"/>
+			<result column="user_id"  property="userId"/>
+			<result column="user_role"  property="userRole"/>
+			<result column="comment"  property="comment"/>
+			<result column="operation_type"  property="operationType"/>
+		</association>
+	</resultMap>
+
+	<resultMap id="detailHouse" type="com.jinhui.domain.House" >
+		<result column="modified_id"  property="modifiedId"/>
+		<result column="house_id"  property="id"/>
+		<result column="community"  property="community"/>
+		<result column="province"  property="province"/>
+		<result column="city"  property="city"/>
+		<result column="district"  property="district"/>
+		<result column="road"  property="road"/>
+		<result column="door_no"  property="doorNo"/>
+		<result column="detail_address"  property="detailAddress"/>
+		<result column="user_id"  property="userId"/>
+		<result column="username"  property="username"/>
+		<result column="house_credential"  property="houseCredential"/>
+		<result column="area"  property="area"/>
+		<result column="real_area"  property="realArea"/>
+		<result column="usage_ratio"  property="usageRatio"/>
+		<result column="direction"  property="direction"/>
+		<result column="floor"  property="floor"/>
+		<result column="construction"  property="construction"/>
+		<result column="is_trusteeship"  property="isTrusteeship"/>
+		<result column="images"  property="images"/>
+		<association property="contract" javaType="com.jinhui.domain.Contract">
+			<result column="house_id"  property="houseId"/>
+			<result column="c_renter"  property="renter"/>
+			<result column="c_renter_id"  property="renterId"/>
+			<result column="c_agent"  property="agent"/>
+			<result column="tenant"  property="tenant"/>
+			<result column="tenant_id"  property="tenantId"/>
+			<result column="c_amount"  property="amount"/>
+			<result column="start_date"  property="startDate"/>
+			<result column="end_date"  property="endDate"/>
+			<result column="c_deposit"  property="deposit"/>
+			<result column="c_status"  property="status"/>
+			<result column="c_files"  property="files"/>
+		</association>
+		<association property="trusteeship" javaType="com.jinhui.domain.Trusteeship">
+			<result column="house_id"  property="houseId"/>
+			<result column="t_renter"  property="renter"/>
+			<result column="t_renter_id"  property="renterId"/>
+			<result column="t_agent"  property="agent"/>
+			<result column="t_amount"  property="amount"/>
+			<result column="start_date"  property="startDate"/>
+			<result column="end_date"  property="endDate"/>
+			<result column="t_deposit"  property="deposit"/>
+			<result column="t_status"  property="status"/>
+			<result column="t_files"  property="files"/>
+		</association>
+		<association property="modifiedRecord" javaType="com.jinhui.domain.ModifiedRecord">
+			<result column="house_id"  property="houseId"/>
+			<result column="mh_user_name"  property="userName"/>
+			<result column="mh_user_id"  property="userId"/>
+			<result column="user_role"  property="userRole"/>
+			<result column="comment"  property="comment"/>
+			<result column="operation_type"  property="operationType"/>
+			<result column="mh_gmt_created"  property="gmtCreated"/>
+		</association>
+	</resultMap>
+
+	<sql id="detailCols">
+		h.`modified_id`, h.`id` house_id, h.`community`, h.`province`, h.`city`, h.`district`, h.`road`, h.`door_no`,
+		h.`detail_address`, h.`user_id`, h.`username`, h.`house_credential`, h.`area`, h.`real_area`, h.`usage_ratio`,
+		h.`direction`, h.`floor`, h.`construction`, h.`is_trusteeship`, h.`images`,
+		c.`renter` c_renter, c.`renter_id` c_renter_id, c.`agent` c_agent, c.`tenant`, c.`tenant_id`, c.`amount` c_amount,
+		c.`start_date`, c.`end_date`, c.`deposit` c_deposit, c.`status` c_status, c.`files` c_files,
+		t.`renter` t_renter, t.`renter_id` t_renter_id, t.`agent` t_agent, t.`amount` t_amount, t.`start_date`, t.`end_date`,
+		t.`deposit` t_deposit, t.`status` t_status, t.`files` t_files,
+    	mh.`user_id` mh_user_id, u.`name` mh_user_name, mh.`user_role`, mh.`comment`, mh.`operation_type`,
+    	mh.`gmt_created` mh_gmt_created
+	</sql>
+	<select id="findHouseModifiedList" resultMap="detailHouse" parameterType="String">
+		SELECT <include refid="detailCols"/> FROM house h
+		INNER JOIN contract c ON h.modified_id=c.modified_id
+		INNER JOIN trusteeship t ON h.modified_id=t.modified_id
+		INNER JOIN modified_history mh ON h.modified_id=mh.modified_id
+		INNER JOIN user u ON mh.user_id=u.id
+		WHERE h.id=#{houseId} ORDER BY mh_gmt_created DESC
+	</select>
+
+	<select id="findLastModifiedHouses" resultMap="baseHouse" parameterType="Long">
+		SELECT *
+		FROM house h
+		INNER JOIN (
+			SELECT max(modified_id) modified_id,
+				`house_id`,`user_id`, `user_role`,
+				`comment`, `operation_type`
+			FROM
+				(select * from modified_history WHERE user_id=#{uid} order by modified_id desc) mh_tmp
+			group by house_id
+		) mh ON h.modified_id=mh.modified_id
+	</select>
+
+	<select id="findLastModifiedHouse" resultMap="baseHouse" parameterType="Map">
+		SELECT *
+		FROM house h
+		INNER JOIN (
+		SELECT max(modified_id) modified_id,
+		`house_id`,`user_id`, `user_role`,
+		`comment`, `operation_type`
+		FROM
+		(select * from modified_history WHERE user_id=#{uid} order by modified_id desc) mh_tmp
+		 WHERE house_id=#{houseId}
+		) mh ON h.modified_id=mh.modified_id
+	</select>
+
+	<insert id="saveHouse" useGeneratedKeys="true" keyProperty="modifiedId" parameterType="com.jinhui.domain.House">
+		INSERT INTO `rent`.`house`
+		(
+		`id`,
+		`community`,
+		`province`,
+		`city`,
+		`district`,
+		`road`,
+		`door_no`,
+		`detail_address`,
+		`user_id`,
+		`username`,
+		`house_credential`,
+		`area`,
+		`real_area`,
+		`usage_ratio`,
+		`direction`,
+		`floor`,
+		`construction`,
+		`is_trusteeship`,
+		`images`)
+		VALUES
+		(
+		#{id},
+		#{community},
+		#{province},
+		#{city},
+		#{district},
+		#{road},
+		#{doorNo},
+		#{detailAddress},
+		#{userId},
+		#{username},
+		#{houseCredential},
+		#{area},
+		#{realArea},
+		#{usageRatio},
+		#{direction},
+		#{floor},
+		#{construction},
+		#{isTrusteeship},
+		#{images});
+	</insert>
+
+	<insert id="saveTrusteeship" parameterType="com.jinhui.domain.Trusteeship">
+		INSERT INTO `rent`.`trusteeship`
+		(
+		`modified_id`,
+		`house_id`,
+		`renter`,
+		`renter_id`,
+		`agent`,
+		`amount`,
+		`start_date`,
+		`end_date`,
+		`deposit`,
+		`status`,
+		`files`)
+		VALUES
+		(
+		#{modifiedId},
+		#{houseId},
+		#{renter},
+		#{renterId},
+		#{agent},
+		#{amount},
+		#{startDate},
+		#{endDate},
+		#{deposit},
+		#{status},
+		#{files});
+	</insert>
+
+	<insert id="saveContract" parameterType="com.jinhui.domain.Contract">
+		INSERT INTO `rent`.`contract`
+		(
+		`modified_id`,
+		`house_id`,
+		`renter`,
+		`renter_id`,
+		`agent`,
+		`tenant`,
+		`tenant_id`,
+		`amount`,
+		`start_date`,
+		`end_date`,
+		`deposit`,
+		`status`,
+		`files`)
+		VALUES
+		(
+		#{modifiedId},
+		#{houseId},
+		#{renter},
+		#{renterId},
+		#{agent},
+		#{tenant},
+		#{tenantId},
+		#{amount},
+		#{startDate},
+		#{endDate},
+		#{deposit},
+		#{status},
+		#{files});
+	</insert>
+
+	<insert id="saveModifiedRecord" parameterType="com.jinhui.domain.ModifiedRecord">
+		INSERT INTO `rent`.`modified_history`
+		(
+		`modified_id`,
+		`house_id`,
+		`user_id`,
+		`user_role`,
+		`comment`,
+		`operation_type`,
+		`gmt_created`)
+		VALUES
+		(
+		#{modifiedId},
+		#{houseId},
+		#{userId},
+		#{userRole},
+		#{comment},
+		#{operationType},
+		now());
+	</insert>
+
+	<insert id="batchAddHouses" parameterType="List">
+		INSERT INTO `rent`.`batch_import_house`
+		(
+		`province`,
+		`city`,
+		`region`,
+		`propertyAddr`,
+		`propertyType`,
+		`liveInYear`,
+		`houseType`,
+		`communityLayout`,
+		`households`,
+		`rentalRatio`,
+		`metro`,
+		`metroDistance`,
+		`bus`,
+		`busDistance`,
+		`buildingNo`,
+		`cellNo`,
+		`doorNo`,
+		`area`,
+		`house_type`,
+		`floors`,
+		`year`,
+		`bedroom`,
+		`drawingRoom`,
+		`bathroom`,
+		`balcony`,
+		`rent`,
+		`payType`,
+		`tenancy`,
+		`vacancy`,
+		`management_type`,
+		`hasSys`,
+		`hasSmartMeter`,
+		`hasSmartLock`,
+		`hasSmartRouter`,
+		`renter_age`,
+		`renter_gender`,
+		`income`,
+		`renter_marital`,
+		`renter_hasChild`,
+		`renter_bankCreditReport`,
+		`renter_otherCreditReport`,
+		`renter_judicalRecords`,
+		`renter_estateRatio`,
+		`renter_otherPropertyRatio`,
+		`tenant_age`,
+		`tenant_gender`,
+		`profession`,
+		`tenant_marital`,
+		`tenant_hasChild`,
+		`tenant_bankCreditReport`,
+		`tenant_otherCreditReport`,
+		`tenant_judicalRecords`,
+		`tenant_estateRatio`,
+		`tenant_otherPropertyRatio`,
+		`gmt_created`)
+		VALUES
+		<foreach collection="houses" item="item" separator=",">
+		(
+			#{baseInfo.province},
+			#{baseInfo.city},
+			#{baseInfo.region},
+			#{baseInfo.propertyAddr},
+			#{baseInfo.propertyType},
+			#{baseInfo.liveInYear},
+			#{baseInfo.houseType},
+			#{baseInfo.communityLayout},
+			#{baseInfo.households},
+			#{baseInfo.rentalRatio},
+			#{rafficInfo.metro},
+			#{rafficInfo.metroDistance},
+			#{rafficInfo.bus},
+			#{rafficInfo.busDistance},
+			#{houseType.buildingNo},
+			#{houseType.cellNo},
+			#{houseType.doorNo},
+			#{houseType.area},
+			#{houseType.type},
+			#{houseType.floors},
+			#{decorationInfo.year},
+			#{usableInfo.bedroom},
+			#{usableInfo.drawingRoom},
+			#{usableInfo.bathroom},
+			#{usableInfo.balcony},
+			#{rentalInfo.rent},
+			#{rentalInfo.payType},
+			#{rentalInfo.tenancy},
+			#{rentalInfo.vacancy},
+			#{managementInfo.type},
+			#{managementInfo.hasSys},
+			#{managementInfo.hasSmartMeter},
+			#{managementInfo.hasSmartLock},
+			#{managementInfo.hasSmartRouter},
+			#{renterInfo.age},
+			#{renterInfo.gender},
+			#{renterInfo.income},
+			#{renterInfo.marital},
+			#{renterInfo.hasChild},
+			#{renterInfo.bankCreditReport},
+			#{renterInfo.otherCreditReport},
+			#{renterInfo.judicalRecords},
+			#{renterInfo.estateRatio},
+			#{renterInfo.otherPropertyRatio},
+			#{tenantInfo.age},
+			#{tenantInfo.gender},
+			#{tenantInfo.profession},
+			#{tenantInfo.marital},
+			#{tenantInfo.hasChild},
+			#{tenantInfo.bankCreditReport},
+			#{tenantInfo.otherCreditReport},
+			#{tenantInfo.judicalRecords},
+			#{tenantInfo.estateRatio},
+			#{tenantInfo.otherPropertyRatio},
+			now()
+	  	)
+		</foreach>
+	</insert>
+</mapper>
