@@ -302,7 +302,7 @@ public class RentController {
         return result;
     }
 
-    @ApiOperation(value = "上传附件", response = UploadAttachmentResult.class, httpMethod = "POST")
+    @ApiOperation(value = "批量导入数据", response = UploadAttachmentResult.class, httpMethod = "POST")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "form", name = "multipartFile", dataType = "file", required = true, value = "文件对象"),
             @ApiImplicitParam(paramType = "form", name = "userId", dataType = "long", required = true, value = "企业ID")
@@ -370,7 +370,7 @@ public class RentController {
     }
 
     @ResponseBody
-    @ApiOperation(value = "用户登入", response = UserVo.class, httpMethod = "POST")
+    @ApiOperation(value = "新增用户", response = UserVo.class, httpMethod = "POST")
     @RequestMapping(value = "/addUser", method = POST)
     public WebTemplateResult<UserVo> addUser(@ApiParam(value = "添加用户", required = true)
                                 @RequestBody NewUserVo newUserVo, HttpServletRequest request) {

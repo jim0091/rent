@@ -82,24 +82,24 @@ public class RentServiceImpl implements RentService {
         ModifiedRecord mr = house.getModifiedRecord();
         houseMapper.saveModifiedRecord(mr);
         //增加积分
-        Map<String, Object> paras = new HashMap<>();
-        paras.put("uid",mr.getUserRole());
-        paras.put("houseId",house.getId());
-        House lastModifiedHouse = houseMapper.findLastModifiedHouse(paras);
-        if(lastModifiedHouse != null
-                && lastModifiedHouse.getModifiedRecord().getOperationType()
-                .equals(ModifiedRecord.OperationType.Approved)
-                && house.getModifiedRecord().getOperationType()
+        if(house.getModifiedRecord().getOperationType()
                 .equals(ModifiedRecord.OperationType.Approved)) {
-            //ignored
-        } else {
-            Long points = 0L;
-            User.Role role = User.Role.codeOf(mr.getUserRole());
-            for (ModifiedRecord.OperationField of : mr.getOperationFields()) {
-                points += role.reward(of);
+            Map<String, Object> paras = new HashMap<>();
+            paras.put("uid",mr.getUserRole());
+            paras.put("houseId",house.getId());
+            House lastModifiedHouse = houseMapper.findLastModifiedHouse(paras);
+            if(lastModifiedHouse != null
+                    && lastModifiedHouse.getModifiedRecord().getOperationType()
+                    .equals(ModifiedRecord.OperationType.Approved)) {
+                return;
             }
-            self.addPoints(mr.getUserId(), points);
         }
+        Long points = 0L;
+        User.Role role = User.Role.codeOf(mr.getUserRole());
+        for (ModifiedRecord.OperationField of : mr.getOperationFields()) {
+            points += role.reward(of);
+        }
+        self.addPoints(mr.getUserId(), points);
         //store to fabric
         String houseJson = JSONObject.toJSONString(house);
         if(logger.isInfoEnabled())
@@ -120,6 +120,7 @@ public class RentServiceImpl implements RentService {
 
     @Override
     public void addUser(User user) {
+        user.addPoint(10L);
         userMapper.saveUser(user);
     }
 

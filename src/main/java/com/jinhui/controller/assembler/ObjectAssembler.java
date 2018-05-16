@@ -95,18 +95,29 @@ public class ObjectAssembler {
         Calendar lastLoginTime = Calendar.getInstance();
         lastLoginTime.setTime(user.getLastLoginTime());
         Calendar currentTime = Calendar.getInstance();
-        int hours = currentTime.get(Calendar.HOUR) - lastLoginTime.get(Calendar.HOUR);
+        long hours = (currentTime.getTimeInMillis() - lastLoginTime.getTimeInMillis()) / (1000 * 60 *60);
+        hours = hours > 24 ? 24 : hours;
         for(int h=1;h<=hours;) {
             PointVo pointVo = new PointVo();
             pointVo.setIndex(h++);
-            Random random = new Random();
-            Double nonce = random.nextDouble() / 10;
+            Double nonce = nextDouble(0.05, 0.05);
             pointVo.setNonce(nonce);
             Double point = nonce * (user.getLastModifiedHouses().size() + 1);
+            //余两位小数
+            point = (double)Math.round(point*100)/100;
             pointVo.setPoint(point);
             pointVos.add(pointVo);
         }
         return pointVos;
+    }
+
+    private static double nextDouble(double origin, double bound) {
+        Random random = new Random();
+        double r = random.nextDouble();
+        r = r * (bound - origin) + origin;
+        if (r >= bound)
+            r = Math.nextDown(bound);
+        return r;
     }
 
     public static HouseVo toHouseVo(House house, RentService rentService) {
