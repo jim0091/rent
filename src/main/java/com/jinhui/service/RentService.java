@@ -15,13 +15,18 @@ public interface RentService {
     User findUser(String cellphone);
     User findUserByOpenid(String openid);
     List<House> findHouseModifiedList(String houseId);
-    void takeAction(House house);
+
+    /**
+     * @param house
+     * @return 奖励的积分
+     */
+    Double takeAction(House house);
 
     String fetchHouseId();
     String iconPath();
     void addUser(User user);
     void modifyUser(User user);
-    void addPoints(Long uid, Long points);
+    void addPoints(Long uid, Double points);
     boolean hasUser(String uid);
 
     void uploadAttachment(Attachment attachment);

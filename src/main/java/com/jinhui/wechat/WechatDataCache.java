@@ -1,8 +1,7 @@
 package com.jinhui.wechat;
 
-import com.jinhui.util.RedisUtils;
-import org.springframework.util.Assert;
 
+import org.springframework.util.Assert;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -80,7 +79,7 @@ public class WechatDataCache {
         readLock.lock();
         try {
             if (enabledRedisCache) {
-                return (String) RedisUtils.getValue(key);
+                //return (String) RedisUtils.getValue(key);
             }
             CacheObject c = CacheMap.get(key);
             if (c == null)
@@ -99,7 +98,7 @@ public class WechatDataCache {
         readLock.lock();
         try {
             if (enabledRedisCache) {
-                return RedisUtils.getValue(key) != null;
+                //return RedisUtils.getValue(key) != null;
             }
             CacheObject c = CacheMap.get(key);
             if (c == null)
@@ -118,7 +117,7 @@ public class WechatDataCache {
         writeLock.lock();
         try {
             if (enabledRedisCache) {
-                RedisUtils.setValue(key, value, expiredTime, TimeUnit.MILLISECONDS);
+                //RedisUtils.setValue(key, value, expiredTime, TimeUnit.MILLISECONDS);
                 return;
             }
             CacheMap.put(key, new CacheObject(new Date(), value));
@@ -140,7 +139,7 @@ public class WechatDataCache {
         writeLock.lock();
         try {
             if (enabledRedisCache) {
-                RedisUtils.setValue(key, valueAction.doAction(), expiredTime, TimeUnit.MILLISECONDS);
+                //RedisUtils.setValue(key, valueAction.doAction(), expiredTime, TimeUnit.MILLISECONDS);
                 return;
             }
             CacheObject co = valueAction.addAction(key, CacheMap);

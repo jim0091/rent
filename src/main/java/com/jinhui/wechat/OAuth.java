@@ -40,7 +40,7 @@ public class OAuth {
     private static final String UserInfoUri = "https://api.weixin.qq.com/sns/userinfo?" +
             "access_token=$access_token&openid=$openid";
     //获取code uri
-    private static final String RedirectUri = "http%3a%2f%2fhouse.jinfeibiao.com" +
+    private static final String RedirectUri = "http%3a%2f%2f"+ WechatAuthorizeManager.Domain +
             "%2frent%2fwechat%2fauthentication%2fcode";
     private static final String CodeUri = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
             "appid=" +WechatAuthorizeManager.appid+ "&" +

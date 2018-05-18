@@ -1,4 +1,5 @@
 package com.jinhui.util;
+/*
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -20,9 +21,11 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+*/
 /**
  * Created by jinhui on 2018/1/24.
- */
+ *//*
+
 public class FabricShellClient {
 
     private static Logger logger = LoggerFactory.getLogger(FabricShellClient.class);
@@ -59,12 +62,14 @@ public class FabricShellClient {
         });
     }
 
-    /**
+    */
+/**
      *
      * @param method
      * @param args
      * @return json结果
-     */
+     *//*
+
     public String query(Method method, String[] args) {
         try {
             String result = execCall(method, args);
@@ -104,8 +109,10 @@ public class FabricShellClient {
     }
 
     public static void main(String[] strs) {
-        /*FabricShellClient fabricShellClient = new FabricShellClient();
-        fabricShellClient.execCall(Method.QueryJsonString, new String[]{"QueryHashcode"});*/
+        */
+/*FabricShellClient fabricShellClient = new FabricShellClient();
+        fabricShellClient.execCall(Method.QueryJsonString, new String[]{"QueryHashcode"});*//*
+
         System.out.println("12345678".indexOf("456"));
     }
 
@@ -132,14 +139,16 @@ public class FabricShellClient {
             logger.info("执行fabric业务, 参数: {}", pstr.toString());
         }
         String result = invoke();
-        /*if(method.isInvoke()) {
+        */
+/*if(method.isInvoke()) {
             //for (int i = 0; i < 3; i++) {
             //执行多次，保证存入数据
             result = invoke();
             //}
         } else {
             result = invoke();
-        }*/
+        }*//*
+
         return result;
     }
 
@@ -199,3 +208,4 @@ public class FabricShellClient {
         return CLI;
     }
 }
+*/

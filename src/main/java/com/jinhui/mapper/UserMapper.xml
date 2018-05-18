@@ -87,7 +87,9 @@
 		`tcc_account_id`,
 		`tcp_balance`,
 		`tcc_balance`,
-		`password`)
+		`password`,
+		`points`,
+		`last_login_time`)
 		VALUES
 		(
 		#{openid},
@@ -99,7 +101,9 @@
 		#{TCCAccountId},
 		#{TCPBalance},
 		#{TCCBalance},
-		#{password})
+		#{password},
+		#{points},
+		now())
 	</insert>
 
 </mapper>

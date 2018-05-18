@@ -26,7 +26,7 @@ public class UserVo {
     @ApiModelProperty(value="TCC余额")
     private BigDecimal TCCBalance;
     @ApiModelProperty(value="积分数")
-    private Long points;
+    private Double points;
     private List<HouseVo> houseVos;
     private List<PointVo> pointVos;
 
@@ -118,11 +118,11 @@ public class UserVo {
         this.houseVos = houseVos;
     }
 
-    public Long getPoints() {
+    public Double getPoints() {
         return points;
     }
 
-    public void setPoints(Long points) {
+    public void setPoints(Double points) {
         this.points = points;
     }
 

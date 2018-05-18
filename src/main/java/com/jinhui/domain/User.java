@@ -21,7 +21,7 @@ public class User {
     private String TCCAccountId;
     private BigDecimal TCPBalance;
     private BigDecimal TCCBalance;
-    private Long points;
+    private Double points;
     private Date lastLoginTime;
     private Role role;
     private List<House> lastModifiedHouses;
@@ -101,11 +101,13 @@ public class User {
         this.password = password;
     }
 
-    public void addPoint(Long point) {
+    public void addPoint(Double point) {
+        if(this.points == null)
+            this.points = 0.0;
         this.points += point;
     }
 
-    public Long getPoints() {
+    public Double getPoints() {
         return points;
     }
 

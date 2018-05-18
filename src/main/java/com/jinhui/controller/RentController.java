@@ -212,11 +212,14 @@ public class RentController {
 
     private void loginReward(User user, UserVo userVo) {
         List<PointVo> pointVos = ObjectAssembler.loginReward(user);
+        double sum = 0.0;
         for(PointVo vo : pointVos) {
-            user.addPoint(vo.getPoint().longValue());
+            sum += vo.getPoint();
         }
+        user.addPoint(sum);
         user.setLastLoginTime(new Date());
         rentService.modifyUser(user);
+        userVo.setPoints(user.getPoints());
         userVo.setPointVos(pointVos);
     }
 
@@ -250,19 +253,23 @@ public class RentController {
 
     @ResponseBody
     @RequestMapping(value = "/takeAction", method = POST)
-    public WebResult takeAction(@ApiParam(value = "记录房产信息", required = true)
+    public WebTemplateResult takeAction(@ApiParam(value = "记录房产信息", required = true)
                                   @RequestBody NewHouseVo houseVo) {
         if(logger.isInfoEnabled()) {
             logger.info("记录房产信息: {}", houseVo);
         }
+        WebTemplateResult<Double> result = new WebTemplateResult<>();
         try {
             House house = ObjectAssembler.toHouse(houseVo);
-            rentService.takeAction(house);
+            Double points = rentService.takeAction(house);
+            result.setCode(WebConstants.RESULT_SUCCESS_CODE);
+            result.setResult(points);
         } catch (Exception ex) {
             logger.warn("记录房产信息 : {}", ex);
-            return WebResult.failureResult(ex.getMessage());
+            result.setCode(WebConstants.RESULT_FAIL_CODE);
+            result.setMessage("记录房产信息错误:" + ex.getMessage());
         }
-        return WebResult.successResult();
+        return result;
     }
 
     @ApiOperation(value = "上传附件", response = UploadAttachmentResult.class, httpMethod = "POST")

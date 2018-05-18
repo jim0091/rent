@@ -30,8 +30,9 @@ public class WechatAuthorizeManager {
 
     //获取openid之后的重定向主页
     public static final String HomepagePath = "/homepage";
-    public static final String Domain = "http://house.jinfeibiao.com";
-    public static final String Homepage = Domain+HomepagePath;
+    public static final String Domain = "house.hitcp.top";//"house.jinfeibiao.com";
+    public static final String DomainPage = "http://" + Domain;
+    public static final String Homepage = DomainPage +HomepagePath;
     public static final String WechatAuthCodeUrl = "/authentication/code";
     private static final String WechatLogin = "/wechatLogin";
     private final static String userAgent = "user-agent";

@@ -100,8 +100,8 @@
 			<bean class="com.jinhui.interceptor.LoginInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
-        
-	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+
+	<!--<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<property name="maxIdle" value="${redis.pool.maxIdle}" />
 		<property name="timeBetweenEvictionRunsMillis" value="${redis.pool.timeBetweenEvictionRunsMillis}" />
 		<property name="minEvictableIdleTimeMillis" value="${redis.pool.minEvictableIdleTimeMillis}" />
@@ -138,7 +138,7 @@
 			<bean
 				class="org.springframework.data.redis.serializer.StringRedisSerializer"></bean>
 		</property>
-	</bean>
+	</bean>-->
 
 	<bean id="springContextHolder" class="com.jinhui.util.SpringContextHolder"
 		lazy-init="false" />
@@ -148,7 +148,8 @@
 		<property name="maxUploadSizePerFile" value="10240000" />
 	</bean>
 
-	<bean id="fabricShellClient" class="com.jinhui.util.FabricShellClient">
+	<!--<bean id="fabricShellClient" class="com.jinhui.util.FabricShellClient">
 		<property name="cmdDir" value="${fabric.client.cmd.path}" />
-	</bean>
+		<property name="fabricUrl" value="${fabric.client.url}" />
+	</bean>-->
 </beans>

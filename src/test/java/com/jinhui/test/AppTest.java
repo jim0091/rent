@@ -5,7 +5,6 @@ import com.jinhui.domain.BatchImportHouse;
 import com.jinhui.service.batch.DefaultBatchService;
 import com.jinhui.service.batch.HouseExcelRowReader;
 import com.jinhui.service.batch.ItemWriter;
-import com.jinhui.util.RedisUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +23,6 @@ import java.io.File;
 @WebAppConfiguration
 @ContextConfiguration(locations = { "classpath*:springmvc-servlet.xml" })
 public class AppTest extends AbstractJUnit4SpringContextTests {
-
-    @Test
-    public void Test1(){
-        String groupId = "groupId";
-        String key = "key";
-        RedisUtils.setValue(key, groupId, "test");
-        System.out.println(RedisUtils.getValue(key, groupId));
-    }
 
     @Qualifier("HouseDBWriter")
     @Autowired

@@ -1,12 +1,11 @@
 package com.jinhui.wechat;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jinhui.service.RentService;
-import com.jinhui.util.SpringContextHolder;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.api.ContentResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -157,7 +156,7 @@ public class PageSignature {
         final String relativeUrl = WechatAuthorizeManager.RequestRelativeUrl(request);
         String signatureUrl = relativeUrl.equals("")
                         ? WechatAuthorizeManager.Homepage :
-                          WechatAuthorizeManager.Domain + relativeUrl;
+                          WechatAuthorizeManager.DomainPage + relativeUrl;
         SharedInfoParameter.Builder parameterBuilder = new SharedInfoParameter.Builder();
         parameterBuilder.ticket(ticket);
         parameterBuilder.timestamp(timestamp);
@@ -189,7 +188,7 @@ public class PageSignature {
             String[] title_desc = SharedInfo.getProperty("/").split("/");
             parameterBuilder.title(title_desc[0]);
             parameterBuilder.desc(title_desc[1]);
-            parameterBuilder.link(WechatAuthorizeManager.Domain);
+            parameterBuilder.link(WechatAuthorizeManager.DomainPage);
         }
         SharedInfoParameter sharedInfoParameter = parameterBuilder.build();
         String sig_src = SignatureString

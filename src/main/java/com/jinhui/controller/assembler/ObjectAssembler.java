@@ -100,7 +100,7 @@ public class ObjectAssembler {
         for(int h=1;h<=hours;) {
             PointVo pointVo = new PointVo();
             pointVo.setIndex(h++);
-            Double nonce = nextDouble(0.05, 0.05);
+            Double nonce = nextDouble(0.05, 0.1);
             pointVo.setNonce(nonce);
             Double point = nonce * (user.getLastModifiedHouses().size() + 1);
             //余两位小数

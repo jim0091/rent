@@ -6,7 +6,7 @@ import com.jinhui.mapper.ExtraMapper;
 import com.jinhui.mapper.HouseMapper;
 import com.jinhui.mapper.UserMapper;
 import com.jinhui.service.RentService;
-import com.jinhui.util.FabricShellClient;
+//import com.jinhui.util.FabricShellClient;
 import com.jinhui.util.IdGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,8 +34,8 @@ public class RentServiceImpl implements RentService {
     private HouseMapper houseMapper;
     @Autowired
     private ExtraMapper extraMapper;
-    @Autowired
-    private FabricShellClient fabricClient;
+    //@Autowired
+    //private FabricShellClient fabricClient;
     @Autowired
     private RentService self;
     @Value("${icon.path}")
@@ -72,7 +72,7 @@ public class RentServiceImpl implements RentService {
 
     @Override
     @Transactional
-    public void takeAction(House house) {
+    public Double takeAction(House house) {
         houseMapper.saveHouse(house);
         house.getContract().setModifiedId(house.getModifiedId());
         houseMapper.saveContract(house.getContract());
@@ -91,21 +91,22 @@ public class RentServiceImpl implements RentService {
             if(lastModifiedHouse != null
                     && lastModifiedHouse.getModifiedRecord().getOperationType()
                     .equals(ModifiedRecord.OperationType.Approved)) {
-                return;
+                return 0.0;
             }
         }
-        Long points = 0L;
+        double points = 0.0;
         User.Role role = User.Role.codeOf(mr.getUserRole());
         for (ModifiedRecord.OperationField of : mr.getOperationFields()) {
             points += role.reward(of);
         }
         self.addPoints(mr.getUserId(), points);
+        return points;
         //store to fabric
-        String houseJson = JSONObject.toJSONString(house);
+       /* String houseJson = JSONObject.toJSONString(house);
         if(logger.isInfoEnabled())
             logger.info("异步将房屋数据存入fabric, houseId = {}", house.getId());
         fabricClient.asycExec(FabricShellClient.Method.StoreJsonString,
-                new String[]{house.getId(), houseJson.replace("\"","\\\"")});
+                new String[]{house.getId(), houseJson.replace("\"","\\\"")});*/
     }
 
     @Override
@@ -120,7 +121,7 @@ public class RentServiceImpl implements RentService {
 
     @Override
     public void addUser(User user) {
-        user.addPoint(10L);
+        user.addPoint(10.0);
         userMapper.saveUser(user);
     }
 
@@ -130,7 +131,7 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    public void addPoints(Long uid, Long points) {
+    public void addPoints(Long uid, Double points) {
         //增加积分
         User operator = userMapper.findUserById(uid);
         if(operator == null) {
